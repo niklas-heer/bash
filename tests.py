@@ -66,3 +66,9 @@ class TestBash(unittest.TestCase):
         self.assertTrue((t2-t1).total_seconds() < 0.5)
         b.sync()
         self.assertEqual(b.stdout, b'1\n')
+
+    def test_cwd_works(self):
+        without_cwd = bash('echo $PWD')
+        with_cwd = bash('echo $PWD', cwd='/tmp')
+        self.assertNotEqual(without_cwd, with_cwd)
+        self.assertEqual(str(with_cwd), '/tmp')
